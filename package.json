@@ -1,0 +1,9 @@
+{
+  "name": "swiftype-autocomplete-jquery",
+  "version": "1.1.0",
+  "description": "The official Swiftype jQuery plugin for adding autocomplete functionality to a search input field",
+  "main": "jquery.swiftype.autocomplete.js",
+  "repository": "https://github.com/hjemmel/swiftype-autocomplete-jquery",
+  "author": "Swiftype",
+  "license": "MIT"
+}

@@ -1,0 +1,5 @@
+# IDE directories
+.idea
+
+# Dependency directories
+node_modules/
