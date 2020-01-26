@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type='text/javascript' src='jquery.swiftype.autocomplete.js'></script>
+        <link type='text/css' rel='stylesheet' href='autocomplete.css' media='all' />
+        <script type='text/javascript'>
+        $(function() {
+          $('#st-search-input').swiftype({
+            resultRenderFunction: function(ctx, results) {
+              var $list = ctx.list,
+                config = ctx.config;
+
+              $.each(results, function(document_type, items) {
+
+                
+                  $('<li>' + document_type + '</li>').appendTo($list)
+                
+
+                $.each(items, function(idx, item) {
+                  var title = "title";
+                  if(item.hasOwnProperty("name")) {
+                    title = "name";
+                  }
+                  ctx.registerResult($('<li> <p class="title">' + Swiftype.htmlEscape(item[title]) + '</p></li>').appendTo($list), item);
+                });
+              });
+            },
+            disableDocumentGroup: true,
+            highlightFields: {
+              'books': {'title': {'size': 5, 'fallback': true }},
+              'magazines': {'title': {'size': 5, 'fallback': true }},
+              'users': {'name': {'size': 5, 'fallback': true }}
+            },
+            fetchFields: {
+              books: ['title', 'author', 'genre']
+            },
+            engineKey: '5jZG1gmmCTFYbSSDjpqq',
+            onComplete: function(selectedItem) {
+              window.location = selectedItem['AbsoluteLink'] // Update the autocomplete dropdown's value
+            },
+          });
+        })
+        </script>
+    </head>
+    <body>
+        <form>
+          <h1>Example Swiftype Autocomplete installation</h1>
+          Search your site: <input type='text' id='st-search-input' class='st-search-input' />
+        </form>
+    </body>
+</html>
