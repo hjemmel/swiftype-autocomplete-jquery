@@ -1,9 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <title>Swiftype Example</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type='text/javascript' src='jquery.swiftype.autocomplete.js'></script>
         <link type='text/css' rel='stylesheet' href='autocomplete.css' media='all' />
+        <link type='text/css' rel='stylesheet' href='categories.css' media='all' />
+        <style rel="stylesheet" media="all">
+            .swiftype-widget .autocomplete li {
+                border: none;
+
+                font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+                color: #3A4F5A;
+            }
+
+            .swiftype-widget .autocomplete li.items {
+                display: flex;
+                align-items: center;
+            }
+
+            .swiftype-widget .autocomplete li.sections {
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 24px;
+                cursor: default;
+                text-transform: capitalize;
+            }
+
+            .swiftype-widget .autocomplete span.title {
+                font-size: 16px;
+                line-height: 22px;
+            }
+
+            .swiftype-widget .autocomplete li .item_image {
+                height: 35px;
+                width: 45px;
+                margin-right: 10px;
+            }
+
+            .swiftype-widget .autocomplete li.active {
+                border: none;
+                color: #ffffff;
+                background: #3A4F5A;
+            }
+
+            input[type="text"].loading {
+                background-image: url("http://loadinggif.com/images/image-selection/2.gif");
+                background-repeat: no-repeat ;
+                background-position-x: 95% ;
+                background-position-y: 50% ;
+            }
+
+        </style>
         <script type='text/javascript'>
         $(function() {
           $('#st-search-input').swiftype({
@@ -13,16 +61,21 @@
 
               $.each(results, function(document_type, items) {
 
-                
-                  $('<li>' + document_type + '</li>').appendTo($list)
-                
+
+                  if(items && items.length > 0){
+                      $('<li class="sections">' + document_type + '</li>').appendTo($list);
+                  }
+
 
                 $.each(items, function(idx, item) {
                   var title = "title";
                   if(item.hasOwnProperty("name")) {
                     title = "name";
                   }
-                  ctx.registerResult($('<li> <p class="title">' + Swiftype.htmlEscape(item[title]) + '</p></li>').appendTo($list), item);
+                  ctx.registerResult($(`<li class="items">
+                        <img class="item_image" src="default_image.png" alt="Fox"/>
+                        <span class="title"> ${Swiftype.htmlEscape(item[title])} </span>
+                    </li>`).appendTo($list), item);
                 });
               });
             },
@@ -35,18 +88,28 @@
             fetchFields: {
               books: ['title', 'author', 'genre']
             },
-            engineKey: '5jZG1gmmCTFYbSSDjpqq',
+            noResultsMessage: "No results found, please try again!",
+            engineKey: 'XXX',
             onComplete: function(selectedItem) {
               window.location = selectedItem['AbsoluteLink'] // Update the autocomplete dropdown's value
             },
           });
+            $( document ).ajaxComplete(function() {
+                $("#st-search-input").removeClass("loading");
+            });
+
+            $( document ).ajaxStart(function() {
+                $("#st-search-input").addClass("loading");
+            });
         })
         </script>
     </head>
     <body>
         <form>
-          <h1>Example Swiftype Autocomplete installation</h1>
-          Search your site: <input type='text' id='st-search-input' class='st-search-input' />
+            <h1>Example Swiftype Autocomplete installation</h1>
+
+                Search your site: <input type='text' id='st-search-input' class='st-search-input' />
+
         </form>
     </body>
 </html>
